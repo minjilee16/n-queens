@@ -9,6 +9,7 @@ describe('Board', function() {
     // The Board() constructor will accept a matrix and build that into a (Backbone) Board object (as defined in Board.js)
     var board = new Board(matrix);
     _.map('row col rooks majorDiagonal minorDiagonal queens'.split(' '), function(conflictType) {
+      // 
       var conflictDetected = board['hasAny' + capitalize(conflictType) + 'Conflicts']();
       var conflictExpected = _(expectedConflicts).contains(conflictType);
       var message = conflictExpected ? 'should' : 'should not';
@@ -18,6 +19,29 @@ describe('Board', function() {
       });
     });
   };
+
+
+//   var verifyConflictTypes = function(['row', 'rooks', 'queens'], matrix) {
+//     // The Board() constructor will accept a matrix and build that into a (Backbone) Board object (as defined in Board.js)
+//     var board = new Board(matrix);
+//     _.map('row col rooks majorDiagonal minorDiagonal queens'.split(' '), function(row) {
+//       // [ 'row','col', ..... ]
+//       var conflictDetected = board['hasAny' + capitalize('row') + 'Conflicts']();
+//               //return true;
+//                     // board['hasAnyRowConflicts']()
+//               //board.hasAnyConflicts();
+//       var conflictExpected = _(['row', 'rooks', 'queens']).contains('row'); 
+// // return true 
+
+//       var message = conflictExpected ? 'should' : 'should not';
+// // 'should'
+//       it(message + ' find a ' + 'row' + ' conflict', function() {
+// // 'should find a row conflict'
+//         expect(conflictDetected).to.be.equal(conflictExpected);
+//       });
+//     });
+//   };
+
 
   describe('Empty board', function() {
     verifyConflictTypes([''], [
