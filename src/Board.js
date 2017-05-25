@@ -171,11 +171,12 @@
     //
     // test if a specific major diagonal on this board contains a conflict
     hasMajorDiagonalConflictAt: function(majorDiagonalColumnIndexAtFirstRow) {
+// console.log('majorDiagonalColumnIndexAtFirstRow' , majorDiagonalColumnIndexAtFirstRow); 
 // _getFirstRowColumnIndexForMajorDiagonalOn
       var rows = this.rows();
       var count = 0; 
       for ( var i = 0; i < rows.length; i++ ) {
-        if ( rows[i][i +majorDiagonalColumnIndexAtFirstRow] === 1 ) {
+        if ( rows[i][i + majorDiagonalColumnIndexAtFirstRow] === 1 ) {
           count++;
         }
       }  
@@ -190,7 +191,7 @@
     hasAnyMajorDiagonalConflicts: function() {
       var rows = this.rows();
       var count = 0; 
-      for ( var i = 0; i < rows.length; i++ ) {
+      for ( var i = -3; i < rows.length; i++ ) {
         if ( this.hasMajorDiagonalConflictAt(i) ) {
           return true;
         }
@@ -202,31 +203,59 @@
 
     // Minor Diagonals - go from top-right to bottom-left
     // --------------------------------------------------------------
-    //
+/*    
+
+
+    _getFirstRowColumnIndexForMajorDiagonalOn: function(rowIndex, colIndex) {
+      return colIndex - rowIndex;
+    },
+
+    _getFirstRowColumnIndexForMinorDiagonalOn: function(rowIndex, colIndex) {
+      return colIndex + rowIndex;
+    },
+
+
+
+
+*/
     // test if a specific minor diagonal on this board contains a conflict
     hasMinorDiagonalConflictAt: function(minorDiagonalColumnIndexAtFirstRow) {
+    // console.log(minorDiagonalColumnIndexAtFirstRow, "majorDiagonalColumnIndexAtFirstRow");
       var rows = this.rows();
       var count = 0; 
-      for ( var i = rows.length-1; i >= 0; i-- ) {
-        for ( var j = 0; j < row[i].length; j++){
-          if ( rows[i ][minorDiagonalColumnIndexAtFirstRow +i ] === 1 ) {
-            count++;
-          }
+     
+//go through every array starting from the bottom
+//go through every item in the array
+  //if the result of helper function is the same as the minorDiagonalColumnIndexAtFirstRow variable passed in, THEN
+   //check if that box has a 1,
+   //add one to the count
+
+      for (var i = rows.length -1; i >= 0; i-- ) {
+        for (var j = 0; j < rows[i].length; j++) {
+           // console.log('getFirstRowColumnIndexForMinorDiagonalOn(i' +i +',j'+j+'', this._getFirstRowColumnIndexForMinorDiagonalOn(i,j), "minorDiagonalColumnIndexAtFirstRow:",minorDiagonalColumnIndexAtFirstRow);
+           if (this._getFirstRowColumnIndexForMinorDiagonalOn(i, j) === minorDiagonalColumnIndexAtFirstRow ) {
+             if (rows[i][j] === 1) {
+               count++;
+             }
+           }         
         }
-      }  
+      }
       if (count > 1) {
+        console.log('has a minor conflict, we counted:', count);
         return true;
       }
-
+      console.log('false, we did not find minor conflict. counted:', count);
       return false; // fixme
     },
 
-    // test if any minor diagonals on this board contain conflicts
+
     hasAnyMinorDiagonalConflicts: function() {
       var rows = this.rows();
       var count = 0; 
-      for ( var i = rows.length-1; i >= 0; i-- ) {
-        if ( this.hasMajorDiagonalConflictAt(i) ) {
+      for ( var i = 6; i >= 0; i--) {
+ 
+         
+        if ( this.hasMinorDiagonalConflictAt(i) ) {
           return true;
         }
       }      
