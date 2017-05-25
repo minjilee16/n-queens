@@ -175,7 +175,7 @@
       var rows = this.rows();
       var count = 0; 
       for ( var i = 0; i < rows.length; i++ ) {
-        if ( rows[ i + majorDiagonalColumnIndexAtFirstRow ][i] === 1 ) {
+        if ( rows[i][ majorDiagonalColumnIndexAtFirstRow + i ] === 1 ) {
           count++;
         }
       }  
@@ -191,11 +191,10 @@
       var rows = this.rows();
       var count = 0; 
       for ( var i = 0; i < rows.length; i++ ) {
-        if ( this.hasMajorDiagonalConflictAt(rows[i]) ) {
+        if ( this.hasMajorDiagonalConflictAt(i) ) {
           return true;
         }
       }      
-
       return false; // fixme
     },
 
