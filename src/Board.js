@@ -7,12 +7,15 @@
   window.Board = Backbone.Model.extend({
 
     initialize: function (params) {
+      // params an object 
       if (_.isUndefined(params) || _.isNull(params)) {
         console.log('Good guess! But to use the Board() constructor, you must pass it an argument in one of the following formats:');
         console.log('\t1. An object. To create an empty board of size n:\n\t\t{n: %c<num>%c} - Where %c<num> %cis the dimension of the (empty) board you wish to instantiate\n\t\t%cEXAMPLE: var board = new Board({n:5})', 'color: blue;', 'color: black;', 'color: blue;', 'color: black;', 'color: grey;');
         console.log('\t2. An array of arrays (a matrix). To create a populated board of size n:\n\t\t[ [%c<val>%c,%c<val>%c,%c<val>%c...], [%c<val>%c,%c<val>%c,%c<val>%c...], [%c<val>%c,%c<val>%c,%c<val>%c...] ] - Where each %c<val>%c is whatever value you want at that location on the board\n\t\t%cEXAMPLE: var board = new Board([[1,0,0],[0,1,0],[0,0,1]])', 'color: blue;', 'color: black;', 'color: blue;', 'color: black;', 'color: blue;', 'color: black;', 'color: blue;', 'color: black;', 'color: blue;', 'color: black;', 'color: blue;', 'color: black;', 'color: blue;', 'color: black;', 'color: blue;', 'color: black;', 'color: blue;', 'color: black;', 'color: blue;', 'color: black;', 'color: grey;');
       } else if (params.hasOwnProperty('n')) {
+            // params { n :  }
         this.set(makeEmptyMatrix(this.get('n')));
+        // console.log('this set:',this.set(makeEmptyMatrix(this.get('n'))));
       } else {
         this.set('n', params.length);
       }
@@ -20,6 +23,7 @@
 
     rows: function() {
       return _(_.range(this.get('n'))).map(function(rowIndex) {
+        // n 
         return this.get(rowIndex);
       }, this);
     },
@@ -79,12 +83,37 @@
     //
     // test if a specific row on this board contains a conflict
     hasRowConflictAt: function(rowIndex) {
+      var conflictComparisonArray = [];
+      var row = this.rows()[rowIndex];
+      row.forEach(function(column, index, array) {
+        if (column === 1) { 
+          conflictComparisonArray.push(column);
+        }
+      });
+      if (conflictComparisonArray.length > 1) {
+        return true;
+      }
       return false; // fixme
     },
 
-    // test if any rows on this board contain conflicts
+    // test if any rows on this board contain conflict      s
     hasAnyRowConflicts: function() {
-      return false; // fixme
+      var conflictComparisonArray = [[], [], [], []];
+      var row = this.rows();
+        
+      for ( var i = 0; i < row.length; i++ ) {
+        for ( var k = 0; k < row[i].length; k++ ) {
+          if ( row[i][k] === 1 ) {
+            conflictComparisonArray[i].push(row[i][k]);
+          }
+        }
+      }
+      for (var x = 0; x < conflictComparisonArray.length; x++) {
+        if ( conflictComparisonArray[x].length > 1 ) {
+          return true; 
+        }
+      }
+      return false;
     },
 
 
@@ -94,12 +123,45 @@
     //
     // test if a specific column on this board contains a conflict
     hasColConflictAt: function(colIndex) {
+
+      var matrix = this.rows();
+      var colConflictComparison = [];
+      
+      for (var i = 0; i < matrix.length; i++) {
+        if (matrix[i][colIndex] === 1) {
+          colConflictComparison.push(matrix[i][colIndex]);
+        } 
+      }
+      if (colConflictComparison.length > 1) {
+        return true;
+      }
       return false; // fixme
     },
 
     // test if any columns on this board contain conflicts
     hasAnyColConflicts: function() {
-      return false; // fixme
+      // var hasConflicts = false; 
+      var matrix = this.rows(); 
+      var colConflictComparison = [[], [], [], []];
+      for (var i = 0; i < matrix.length; i++ ) {
+        for ( var j = 0; j < matrix[i].length; j++) {
+          colConflictComparison[j].push( matrix[i][j] ); 
+        }
+      }
+      var possibleConflictsArray = [[], [], [], []]; 
+      for ( var x = 0; x < colConflictComparison.length; x++ ) {
+        for ( var y = 0; y < colConflictComparison[x].length; y++) {
+          if ( colConflictComparison[x][y] === 1 ) {
+            possibleConflictsArray[x].push(colConflictComparison[x][y]);
+          }
+        }
+      }
+      for ( var x = 0; x < possibleConflictsArray.length; x ++ ) {
+        if ( possibleConflictsArray[x].length > 1 ) {
+          return true; 
+        }
+      }
+      return false; 
     },
 
 
@@ -109,11 +171,31 @@
     //
     // test if a specific major diagonal on this board contains a conflict
     hasMajorDiagonalConflictAt: function(majorDiagonalColumnIndexAtFirstRow) {
-      return false; // fixme
+// _getFirstRowColumnIndexForMajorDiagonalOn
+      var rows = this.rows();
+      var count = 0; 
+      for ( var i = 0; i < rows.length; i++ ) {
+        if ( rows[ i + majorDiagonalColumnIndexAtFirstRow ][i] === 1 ) {
+          count++;
+        }
+      }  
+      if (count > 1) {
+        return true;
+      }
+      return false; 
     },
+
 
     // test if any major diagonals on this board contain conflicts
     hasAnyMajorDiagonalConflicts: function() {
+      var rows = this.rows();
+      var count = 0; 
+      for ( var i = 0; i < rows.length; i++ ) {
+        if ( this.hasMajorDiagonalConflictAt(rows[i]) ) {
+          return true;
+        }
+      }      
+
       return false; // fixme
     },
 
@@ -144,5 +226,7 @@
       });
     });
   };
+// create array of array 
+// n ???? 
 
 }());
