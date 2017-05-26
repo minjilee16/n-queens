@@ -26,23 +26,45 @@ var makeEmptyMatrix = function(n) {
 window.findNRooksSolution = function(n) {
   
   var matrix = makeEmptyMatrix(n);
+// console.log('matrix 1', matrix);
   var board = new Board(matrix);
   
-  matrix[0][0] = 1; 
-  if(!board.hasAnyRooksConflicts()){
-    matrix[i + 1]
-  }
-  // togglePiece
-  console.log('board', board);
-  // hasAnyRowConflicts 
-  // hasAnyColConflicts
+  // matrix[0][0] = 1; 
+  // if ( n === 1 ) {
+  //   var newthing = new Board({n: n});
+  //   return newthing.rows();
+  // }
 
+
+  var recursion = function(row, col) {
+    for ( var i = row; i < n; i ++) {
+      for ( var j = col; j < n; j++) {
+        board.togglePiece(i, j); 
+        if ( board.hasAnyRooksConflicts() ) {
+          board.togglePiece(i, j); 
+        } else if ( !board.hasAnyRooksConflicts()) {
+          return recursion(i + 1, j + 1);  
+        }
+      } 
+    }
+  };
+  
+  recursion(0, 0);
+// console.log('board:', board );
+  // togglePiece: function(rowIndex, colIndex) {
+  //     this.get(rowIndex)[colIndex] = + !this.get(rowIndex)[colIndex];
+  //     this.trigger('change');
+  // },
 
 
   // console.log('Single solution for ' + n + ' rooks:', JSON.stringify(solution));
-  
-  return matrix;
+  return board.rows();
 };
+
+
+
+
+
 
 // return the number of nxn chessboards that exist, with n rooks placed such that none of them can attack each other
 window.countNRooksSolutions = function(n) {

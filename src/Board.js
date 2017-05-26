@@ -139,30 +139,62 @@
     },
 
     // test if any columns on this board contain conflicts
-    hasAnyColConflicts: function() {
+
+
+
+   hasAnyColConflicts : function() {
       // var hasConflicts = false; 
       var matrix = this.rows(); 
-      var colConflictComparison = [[], [], [], []];
+
+      var count1 = 0; 
+      var count2 = 0; 
+      var count3 = 0; 
+      var count4 = 0; 
+      // var colConflictComparison = [[], [], [], []];
       for (var i = 0; i < matrix.length; i++ ) {
-        for ( var j = 0; j < matrix[i].length; j++) {
-          colConflictComparison[j].push( matrix[i][j] ); 
-        }
-      }
-      var possibleConflictsArray = [[], [], [], []]; 
-      for ( var x = 0; x < colConflictComparison.length; x++ ) {
-        for ( var y = 0; y < colConflictComparison[x].length; y++) {
-          if ( colConflictComparison[x][y] === 1 ) {
-            possibleConflictsArray[x].push(colConflictComparison[x][y]);
+        // for ( var j = 0; j < matrix[i].length; j++) {
+          // debugger;
+          if ( matrix[i][0] === 1 ) {
+            count1 ++; 
+          } else if ( matrix[i][1] === 1 ) {
+            count2++; 
+          } else if ( matrix[i][2] === 1 ) { 
+            count3++; 
+          } else if ( matrix[i][3] === 1 ) {
+            count4++;
           }
-        }
       }
-      for ( var x = 0; x < possibleConflictsArray.length; x ++ ) {
-        if ( possibleConflictsArray[x].length > 1 ) {
-          return true; 
-        }
+
+      if ( count1 > 1 || count2 > 1 || count3 > 1 || count4 > 1 ) {
+        return true;
       }
       return false; 
     },
+    // hasAnyColConflicts: function() {
+    //   // var hasConflicts = false; 
+    //   var matrix = this.rows(); 
+    //   var colConflictComparison = [[], [], [], []];
+    //   for (var i = 0; i < matrix.length; i++ ) {
+    //     for ( var j = 0; j < matrix[i].length; j++) {
+  
+    //       colConflictComparison[j].push( matrix[i][j] ); 
+    //     }
+    //   }
+    //   var possibleConflictsArray = [[], [], [], []]; 
+    //   for ( var x = 0; x < colConflictComparison.length; x++ ) {
+    //     for ( var y = 0; y < colConflictComparison[x].length; y++) {
+    //       if ( colConflictComparison[x][y] === 1 ) {
+    //         possibleConflictsArray[x].push(colConflictComparison[x][y]);
+    //       }
+    //     }
+    //   }
+    //   for ( var x = 0; x < possibleConflictsArray.length; x ++ ) {
+    //     if ( possibleConflictsArray[x].length > 1 ) {
+    //       return true; 
+    //     }
+    //   }
+    //   return false; 
+    // },
 
 
 
