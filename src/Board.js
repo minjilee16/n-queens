@@ -241,10 +241,10 @@
         }
       }
       if (count > 1) {
-        console.log('has a minor conflict, we counted:', count);
+        // console.log('has a minor conflict, we counted:', count);
         return true;
       }
-      console.log('false, we did not find minor conflict. counted:', count);
+      // console.log('false, we did not find minor conflict. counted:', count);
       return false; // fixme
     },
 
